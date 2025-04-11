@@ -1,0 +1,27 @@
+config {
+    type: "view",
+    schema: "sources",
+    description: "Geographic and name data for Core Based Statistical Areas (CBSAs), aka metropolitan and micropolitan statistical areas.",
+    columns: {
+        cbsa_fips_code: "The 5-digit FIPS code for the CBSA",
+        name: "The official name of the CBSA",
+        lsad_code: "M1 for metropolitan, M2 for micropolitan.",
+        internal_point_geom: "Representative point inside the CBSA polygon boundary.",
+        area_land_meters: "Land area in square meters."
+    },
+    assertions: {
+        uniqueKey: ["cbsa_fips_code"],
+        rowConditions: [
+            "lsad_code in ('M1','M2')"
+        ]
+    }
+}
+
+SELECT
+  cbsa_fips_code,
+  name,
+  lsad_code,
+  internal_point_geom,
+  area_land_meters
+FROM
+  ${ref("cbsa")}
